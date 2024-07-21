@@ -45,7 +45,8 @@ class Tarea{
 
         botonEstado.addEventListener("click", () => {
             this.actualizarEstado()
-            .then(() => botonEstado.classList.toggle("terminada"));
+            .then(() => botonEstado.classList.toggle("terminada"))
+            .catch(() => console.log("mostrar error"));
         });
 
 
@@ -60,7 +61,17 @@ class Tarea{
     }
 
     borrarTarea(){
-        this.DOM.remove();
+        fetch("http://localhost:4000/tareas/borrar" + this.id, {
+            method : "DELETE"
+        })
+        .then(respuesta => respuesta.json())
+        .then(({resultado, error}) => {
+            if(!error){
+                return this.DOM.remove();
+            }
+            console.log("mostrar error");
+        })
+        //this.DOM.remove();
     }
     /*
     borrarTarea = () => {
@@ -71,7 +82,15 @@ class Tarea{
 
     actualizarEstado(){
         return new Promise((ok, ko) => {
-            ok();
+            fetch("http://localhost:4000/tareas/actualizar/2" + this.id, {
+                method : "PUT"
+            })
+            .then(respuesta => respuesta.json())
+            .then(({error}) => {
+                !error ? ok() : ko();
+                // console.log(error);
+            })
+            // ok();
         })
     }
 
@@ -80,7 +99,19 @@ class Tarea{
             let textoTemporal = this.DOM.children[1].value.trim();
 
             if(textoTemporal != "" && textoTemporal != this.texto){
-                this.texto = textoTemporal;
+                let {error} = await fetch("http://localhost:4000/taras/actualizar/1" + this.id, {
+                    method : "PUT",
+                    body : JSON.stringify({ tarea : textoTemporal }),
+                    headers : {
+                        "Content-type" : "application/json"
+                    }
+                }).then(respuesta => respuesta.json());
+
+                if(!error){
+                    this.texto = textoTemporal;
+                }else{
+                    console.log("error al usuario");
+                }
             }
 
             this.DOM.children[1].classList.remove("visible");
@@ -95,6 +126,7 @@ class Tarea{
             this.DOM.children[1].value = this.texto;
             this.DOM.children[1].classList.add("visible");
             this.DOM.children[2].innerText = "guardar";
+
             // console.log("empezar a editar");
         }
 
