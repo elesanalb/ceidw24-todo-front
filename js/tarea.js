@@ -61,7 +61,7 @@ class Tarea{
     }
 
     borrarTarea(){
-        fetch("http://localhost:4000/tareas/borrar" + this.id, {
+        fetch("https://ceidwfs24-api-todo.onrender.com/tareas/borrar" + this.id, {
             method : "DELETE"
         })
         .then(respuesta => respuesta.json())
@@ -82,7 +82,7 @@ class Tarea{
 
     actualizarEstado(){
         return new Promise((ok, ko) => {
-            fetch("http://localhost:4000/tareas/actualizar/2" + this.id, {
+            fetch("https://ceidwfs24-api-todo.onrender.com/tareas/actualizar/2" + this.id, {
                 method : "PUT"
             })
             .then(respuesta => respuesta.json())
@@ -94,12 +94,12 @@ class Tarea{
         })
     }
 
-    actualizarTexto(){
+    async actualizarTexto(){
         if(this.editando){
             let textoTemporal = this.DOM.children[1].value.trim();
 
             if(textoTemporal != "" && textoTemporal != this.texto){
-                let {error} = await fetch("http://localhost:4000/taras/actualizar/1" + this.id, {
+                let {error} = await fetch("https://ceidwfs24-api-todo.onrender.com/taras/actualizar/1" + this.id, {
                     method : "PUT",
                     body : JSON.stringify({ tarea : textoTemporal }),
                     headers : {
