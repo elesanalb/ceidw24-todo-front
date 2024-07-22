@@ -6,8 +6,8 @@ const inputTexto = document.querySelector('form input[type="text"]');
 fetch("http://localhost:4000/tareas")
 .then(respuesta => respuesta.json())
 .then(tareas => {
-    tareas.sort((a, b) => a.id - b.id).forEach(({id, tarea, terminado}) => {
-        new Tarea(id, tarea, terminado, contTareas);
+    tareas.sort((a, b) => a.id - b.id).forEach(({id, tarea, terminada}) => {
+        new Tarea(id, tarea, terminada, contTareas);
     });
 });
 
