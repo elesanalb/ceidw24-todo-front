@@ -3,7 +3,7 @@ const formulario = document.querySelector("form");
 const inputTexto = document.querySelector('form input[type="text"]');
 
 
-fetch("http://localhost:4000/tareas")
+fetch("https://ceidwfs24-api-todo.onrender.com/tareas")
 .then(respuesta => respuesta.json())
 .then(tareas => {
     tareas.sort((a, b) => a.id - b.id).forEach(({id, tarea, terminada}) => {
@@ -17,7 +17,7 @@ formulario.addEventListener("submit", evento => {
     if(inputTexto.value.trim() != ""){
         let tarea = inputTexto.value.trim();
 
-        fetch("http://localhost:4000/taraas/nueva", {
+        fetch("https://ceidwfs24-api-todo.onrender.com/tareas/nueva", {
             method : "POST",
             body : JSON.stringify({tarea}),
             headers : {
